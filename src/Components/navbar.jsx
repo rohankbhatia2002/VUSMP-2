@@ -29,6 +29,11 @@ function Navbar() {
         navigate('/profile');
     }
 
+    const handleDashboardClick = () => {
+        // Here you can add additional logic if needed
+        navigate('/dashboard');
+    }
+
     useEffect(() => {
         window.addEventListener('resize', showButton)
 
@@ -64,9 +69,15 @@ function Navbar() {
                 </button>
                 <button
                     className="btn btn--primary btn-m" 
-                    onClick={handleProfileClick}
+                    onClick={handleDashboardClick}
                 >
                     My Dashboard
+                </button>
+                <button
+                    className="btn btn--primary btn-m" 
+                    onClick={handleProfileClick}
+                >
+                    Profile
                 </button>
                 <button 
                     className="btn btn--primary btn-m" 

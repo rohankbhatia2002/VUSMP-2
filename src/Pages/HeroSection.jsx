@@ -1,17 +1,32 @@
 import React from 'react';
 import './HeroSection.css'; // Ensures CSS styles are correctly applied
-import VUSMP_logo from '../Images/VUSMP_logo.webp';
+import { button } from '../Components/button';
+import logo from '../Images/Vanderbilt_University_seal.svg.png';
+import { Link, useNavigate, UNSAFE_useScrollRestoration } from 'react-router-dom'
+
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
+  function handleLoginClick() {
+    navigate('/login');
+  }
   return (
     <>
       <main>
         <div className="hero_container">
-          <img src={VUSMP_logo} alt="VUSMP Logo" />
+          <div className="hero_image">
+            <img src={logo} alt="VUSMP Logo" />
+          </div>
           <div className="hero_text">
-            <h1>Your perfect student meal planning experience</h1>
-            <p>An application designed to help you achieve your goals while on the meal plan!</p>
-            <button className="hero_button">Sign Up</button>
+            <h1>Its healthy made simple.</h1>
+            <p>Eat smart. Live well. Plan with VUSMP.</p>
+            <button 
+              className="btn btn--primary btn-m" 
+              onClick={handleLoginClick}
+            >
+              Sign Up
+            </button>
           </div>
         </div>
       </main>

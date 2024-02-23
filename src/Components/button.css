@@ -8,7 +8,9 @@
 .btn {
     padding: 0.5rem 2rem; /* Increased right and left padding for wider buttons */
     font-size: 0.875rem; /* Existing font size, consider if you want it larger for visibility */
-    font-family: 'Arial', sans-serif; /* Setting font-family to a common sans-serif font */
+    font-family: "Bebas Neue", sans-serif;
+    font-style: normal;
+    font-size: 20px;
     border-radius: 20px; /* Ovular shape maintained */
     cursor: pointer;
     transition: background-color 0.2s, transform 0.2s, font-weight 0.2s; /* Added font-weight to transitions */

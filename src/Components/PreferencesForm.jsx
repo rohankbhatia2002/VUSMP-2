@@ -45,49 +45,79 @@ const PreferencesForm = () => {
     }));
   };
 
-  // Function to handle form submission
-  const handleSubmit = () => {
-    // Here you can handle the form submission logic
-    console.log("Selected Allergies:", allergies);
-    console.log("Selected Preferences:", preferences);
-  };
+// Function to handle form submission
+const handleSubmit = () => {
+  // Here you can handle the form submission logic
+  console.log("Selected Allergies:", allergies);
+  console.log("Selected Preferences:", preferences);
 
-  return (
-    <div className="preferences-form">
-      <h2>User Preferences & Allergies Form</h2>
-      <p>Please indicate your preferences and allergies below. Clicking a checkbox will toggle its state.</p>
-      
-      <h3>Allergies:</h3>
-      <div className='allergies'>
-        {Object.keys(allergies).map((allergy) => (
-          <button
-            className={`btn ${allergies[allergy] ? 'active' : ''} ${allergies[allergy] ? 'clicked' : ''}`}
-            key={allergy}
-            onClick={() => handleAllergyToggle(allergy)}
-            style={{ fontSize: allergies[allergy] ? '12px' : '16px' }}
-          >
-            {allergy.replace(/([A-Z])/g, ' $1').toUpperCase()} {/* Add space before each capital letter */}
-          </button>
-          ))}
-        </div>
+  // Separate selected and unselected allergies
+  const selectedAllergies = {};
+  const unselectedAllergies = {};
+  Object.keys(allergies).forEach((allergy) => {
+    if (allergies[allergy]) {
+      selectedAllergies[allergy] = true;
+    } else {
+      unselectedAllergies[allergy] = false;
+    }
+  });
 
-        <h3>Preferences:</h3>
-      <div className='preferences'>
-      {Object.keys(preferences).map((preference) => (
-    <button
-      className={`btn ${preferences[preference] ? 'active' : ''} ${preferences[preference] ? 'clicked' : ''}`}
-      key={preference}
-      onClick={() => handlePreferenceToggle(preference)}
-      style={{ fontSize: preferences[preference] ? '12px' : '16px' }}
-    >
-      {preference.replace(/([A-Z])/g, ' $1').toUpperCase()} {/* Add space before each capital letter */}
-    </button>
-        ))}
-        <button className="btn" onClick={handleSubmit}>Submit</button>
-      </div>
+  // Separate selected and unselected preferences
+  const selectedPreferences = {};
+  const unselectedPreferences = {};
+  Object.keys(preferences).forEach((preference) => {
+    if (preferences[preference]) {
+      selectedPreferences[preference] = true;
+    } else {
+      unselectedPreferences[preference] = false;
+    }
+  });
 
+  // Update state with reordered values
+  setAllergies({ ...selectedAllergies, ...unselectedAllergies });
+  setPreferences({ ...selectedPreferences, ...unselectedPreferences });
+};
+
+return (
+  <div className="preferences-form">
+    <h2>User Preferences & Allergies Form</h2>
+    <p>Please indicate your preferences and allergies below. Clicking a checkbox will toggle its state.</p>
+
+    <h3>Allergies:</h3>
+    <div className='allergies'>
+      {Object.keys(allergies).map((allergy) => (
+        <button
+          className={`button ${allergies[allergy] ? 'active' : ''}`}
+          key={allergy}
+          onClick={() => handleAllergyToggle(allergy)}
+          style={{ fontSize: allergies[allergy] ? '12px' : '16px' }}
+        >
+          {allergy.charAt(0).toUpperCase() + allergy.slice(1)}
+
+        </button>
+      ))}
     </div>
-  );
+
+    <h3>Preferences:</h3>
+    <div className='preferences'>
+      {Object.keys(preferences).map((preference) => (
+        <button
+          className={`button ${preferences[preference] ? 'active' : ''} ${preferences[preference] ? 'clicked' : ''}`}
+          key={preference}
+          onClick={() => handlePreferenceToggle(preference)}
+          style={{ fontSize: preferences[preference] ? '12px' : '16px' }}
+        >
+          {preference.charAt(0).toUpperCase() + preference.slice(1)} {/* Capitalize the first letter */}
+
+        </button>
+      ))}
+    </div>
+    <div className="submit-container"> {/* Wrapper for the submit button */}
+      <br></br>
+      <button className="submit-button" onClick={handleSubmit}>Submit</button>
+    </div>
+  </div>
+);
 };
 
 export default PreferencesForm;

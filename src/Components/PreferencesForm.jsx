@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './PreferencesForm.css';
+import { wait } from '@testing-library/user-event/dist/utils';
+import { Link, useNavigate, UNSAFE_useScrollRestoration } from 'react-router-dom'
 
 const PreferencesForm = () => {
   // State to store selected allergies and preferences
@@ -29,6 +31,8 @@ const PreferencesForm = () => {
     vegetarian: false,
   });
 
+  const navigate = useNavigate();
+
   // Function to handle toggling the state of allergies
   const handleAllergyToggle = (allergy) => {
     setAllergies((prevAllergies) => ({
@@ -50,6 +54,9 @@ const handleSubmit = () => {
   // Here you can handle the form submission logic
   console.log("Selected Allergies:", allergies);
   console.log("Selected Preferences:", preferences);
+  //navigate('/BmrCalculator');
+  
+
 
   // Separate selected and unselected allergies
   const selectedAllergies = {};

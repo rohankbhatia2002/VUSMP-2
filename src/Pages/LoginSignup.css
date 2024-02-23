@@ -1,4 +1,9 @@
 /* LoginSignup.css */
+body{
+    background-color: #fcfcf3; /* Light cream color */
+    font-family: "Bebas Neue", sans-serif;
+}
+
 img {
     width: 30px;
     height: auto;
@@ -9,12 +14,15 @@ img {
 .login_container {
     display: flex;
     flex-direction: column;
-    margin: auto;
-    margin-top: 200px;
-    background: #fcfcf3; /* Light cream color from navbar */
     align-items: center;
-    padding-bottom: 30px;
-    width: 600px;
+    width: 100vw; /* Use 100% of the viewport width */
+    margin: 0; /* Remove auto margin to allow full width */
+    background: white; /* Light cream color */
+    padding: 20px 0; /* Add some padding on top and bottom */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    border-radius: 8px; /* Optional: adds a slight roundness to edges */
+    max-width: 600px; /* Limit the maximum width */
+    margin: 20px auto; /* Center the container with automatic margins */
 }
 
 .login_header {
@@ -33,7 +41,7 @@ img {
 }
 
 .login_underline {
-    width: 61px;
+    width: 80px;
     height: 6px;
     background: #e7d287; /* Gold color */
     border-radius: 9px;
@@ -72,7 +80,6 @@ img {
 }
 
 .login_forgot-password {
-    padding-left: 62px;
     margin-top: 27px;
     color: #000; /* Black text color */
     font-size: 18px;

@@ -1,7 +1,7 @@
 import React from 'react';
 import './HeroSection.css'; // Ensures CSS styles are correctly applied
 import { button } from '../Components/button';
-import logo from '../Images/Vanderbilt_University_seal.svg.png';
+import logo from '../Images/VUSMP_logo.webp';
 import { Link, useNavigate, UNSAFE_useScrollRestoration } from 'react-router-dom'
 
 
@@ -9,7 +9,7 @@ const HeroSection = () => {
   const navigate = useNavigate();
 
   function handleLoginClick() {
-    navigate('/login');
+    navigate('/signup');
   }
   return (
     <>

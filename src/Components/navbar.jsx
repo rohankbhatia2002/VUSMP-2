@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Link, useNavigate, UNSAFE_useScrollRestoration } from 'react-router-dom'
-import toolbarImage from '../Images/VUSMP_logo.webp'
+import toolbarImage from '../Images/Vanderbilt_University_seal.svg.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import './navbar.css' // This is the CSS file for the navbar
@@ -10,8 +10,6 @@ function Navbar() {
     const [click, setClick] = useState(false)
     const [button, setButton] = useState(true)
     const navigate = useNavigate();
-
-    const closeMenu = () => setClick(false)
     
     const showButton = () => {
         if(window.innerWidth <= 960) {
@@ -25,6 +23,11 @@ function Navbar() {
         // Here you can add additional logic if needed
         navigate('/login');
     };
+
+    const handleProfileClick = () => {
+        // Here you can add additional logic if needed
+        navigate('/profile');
+    }
 
     useEffect(() => {
         window.addEventListener('resize', showButton)
@@ -59,17 +62,11 @@ function Navbar() {
                 >
                     View Menus
                 </button>
-                <button 
-                    className="btn btn--primary btn-m" 
-                    onClick={handleLoginClick}
-                >
-                    My Dashboard
-                </button>
                 <button
                     className="btn btn--primary btn-m" 
-                    onClick={handleLoginClick}
+                    onClick={handleProfileClick}
                 >
-                    Profile
+                    My Dashboard
                 </button>
                 <button 
                     className="btn btn--primary btn-m" 

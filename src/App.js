@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from './Components/navbar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginSignup from './Pages/LoginSignup';
+import HeroSection from './Pages/HeroSection';
 import './App.css';
 
 function App() {
@@ -10,7 +11,7 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
-        <Route path='/' element={<h1>Home</h1>} />
+        <Route path='/' element = {<HeroSection/>} />
         <Route path="/login" element={<LoginSignup />}/>
       </Routes>
     </Router>

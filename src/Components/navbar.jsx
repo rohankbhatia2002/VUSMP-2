@@ -59,6 +59,12 @@ function Navbar() {
                 >
                     View Menus
                 </button>
+                <button 
+                    className="btn btn--primary btn-m" 
+                    onClick={handleLoginClick}
+                >
+                    My Dashboard
+                </button>
                 <button
                     className="btn btn--primary btn-m" 
                     onClick={handleLoginClick}

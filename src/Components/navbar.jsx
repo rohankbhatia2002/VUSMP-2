@@ -42,7 +42,11 @@ function Navbar() {
     };
 
     const handleProfileClick = () => {
-        navigate('/profile');
+        if (isLoggedIn) {
+            navigate('/profile-info');
+        }else{
+            navigate('/profile');
+        }
     };
 
     const handleDashboardClick = () => {

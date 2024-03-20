@@ -9,7 +9,7 @@ const HeroSection = () => {
   const navigate = useNavigate();
 
   function handleLoginClick() {
-    navigate('/signup');
+    navigate('/login');
   }
   
   return (

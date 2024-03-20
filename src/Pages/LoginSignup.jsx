@@ -61,7 +61,7 @@ export const LoginSignup = () => {
             .then(res => res.json().then(data => ({ ok: res.ok, body: data }))) // Parse JSON body and include response status
             .then(({ ok, body }) => {
                 if (ok) {
-                    setIsLoggedIn(true)
+                    setIsLoggedIn(false)
                     setAuthUser({
                         Name: email
                     })

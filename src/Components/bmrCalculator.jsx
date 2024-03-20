@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import './bmrCalculator.css';
 import { useAuth } from '../Contexts/AuthContext'; // Import useAuth
-import axios from 'axios'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function BMRCalculator() {
-  const { authUser } = useAuth();
+  const {authUser,
+    setAuthUser,
+    isLoggedIn,
+    setIsLoggedIn} = useAuth();
 
   const [gender, setGender] = useState('male');
   const [age, setAge] = useState('');
@@ -17,6 +21,8 @@ function BMRCalculator() {
   const [fitnessGoal, setFitnessGoal] = useState('build_muscle');
   const [result, setResult] = useState('');
   const [globalBmr, setBMR] = useState('');
+
+  const navigate = useNavigate();
 
   const convertHeightToCm = () => {
     // Convert height from feet and inches to centimeters if imperial is selected
@@ -40,8 +46,13 @@ function BMRCalculator() {
     })
       .then(res => {
         // Check if the response status indicates success
-        if (res.data.status === "Metrics added successfully.") {
-          console.log(`Metrics added successfully: ${res.data.status}`);
+        if (res.status == 200) {
+          console.log(res.status);
+          setIsLoggedIn(true)
+          setAuthUser({
+            Name: authUser
+          })
+          navigate('/profile-info');
         } else {
           // Handle any specific case where status is returned but not success
           console.error(`Failed to add metrics: ${res.data.status || 'Please try again.'}`);
@@ -74,20 +85,25 @@ function BMRCalculator() {
       bmr = 447.593 + (9.247 * weightInKg) + (3.098 * heightInCm) - (4.330 * age);
     }
 
+    // Adjust BMR based on activity level
     if(activityLevel === 'sedentary') bmr *= 1.2;
     else if(activityLevel === 'light') bmr *= 1.375;
     else if(activityLevel === 'moderate') bmr *= 1.55;
     else if(activityLevel === 'very') bmr *= 1.725;
     else if(activityLevel === 'super') bmr *= 1.9;
     
-    setResult(`Your daily calorie needs based on activity level is ${Math.floor(bmr)} calories/day.`);
     setBMR(Math.floor(bmr));
-    postMetrics(gender, age, heightInCm, weight, activityLevel, fitnessGoal, globalBmr);
+    // Use bmr directly for immediate use
+    postMetrics(gender, age, heightInCm, weightInKg, activityLevel, fitnessGoal, Math.floor(bmr));
+    // Use bmr directly here as well
+    setResult(`Your daily calorie needs based on activity level is ${Math.floor(bmr)} calories/day.`);
+
+
   };
 
   return (
     <div className='bmr-calculator'>
-      <h2>BMR Calculator</h2>
+      <h2>STEP 2: BMR Calculator</h2>
       <form>
         {/* Gender */}
         <label htmlFor="gender">Gender:</label>

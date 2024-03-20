@@ -7,8 +7,10 @@ import { useNavigate } from 'react-router-dom';
 import user_icon from '../Images/person.png';
 import email_icon from '../Images/email.png';
 import password_icon from '../Images/password.png';
+import {useAuth} from '../Contexts/AuthContext'
 
 export const LoginSignup = () => {
+    const {authUser, setAuthUser,isLoggedIn,setIsLoggedIn} = useAuth()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loginError, setLoginError] = useState('');
@@ -28,6 +30,10 @@ export const LoginSignup = () => {
             .then(res => {
                 // Assuming the server response structure is consistent and includes a status property
                 if (res.data.status === "Login Successful") {
+                    setIsLoggedIn(true)
+                    setAuthUser({
+                        Name: email
+                    })
                     navigate('/dashboard');
                 } else {
                     setLoginError(res.data.status || 'Login failed. Please try again.'); // Use the server's error message
@@ -55,6 +61,10 @@ export const LoginSignup = () => {
             .then(res => res.json().then(data => ({ ok: res.ok, body: data }))) // Parse JSON body and include response status
             .then(({ ok, body }) => {
                 if (ok) {
+                    setIsLoggedIn(true)
+                    setAuthUser({
+                        Name: email
+                    })
                     navigate('/dashboard');
                 } else {
                     throw new Error(body.status || 'Signup failed. Please try again.'); // Use the server's error message

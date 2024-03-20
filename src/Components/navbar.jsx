@@ -1,56 +1,58 @@
-import React, {useState, useEffect} from 'react'
-import { Link, useNavigate, UNSAFE_useScrollRestoration } from 'react-router-dom'
-import toolbarImage from '../Images/Vanderbilt_University_seal.svg.png'
+import React, {useState, useEffect} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import toolbarImage from '../Images/Vanderbilt_University_seal.svg.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
-import './navbar.css' // This is the CSS file for the navbar
-import { Button } from './button';
+import './navbar.css'; // This is the CSS file for the navbar
+import { useAuth } from '../Contexts/AuthContext'; // Import useAuth
 
 function Navbar() {
-    const [click, setClick] = useState(false)
-    const [button, setButton] = useState(true)
+    const [click, setClick] = useState(false);
+    const [button, setButton] = useState(true);
     const navigate = useNavigate();
-    
+    const {authUser,setAuthUser,isLoggedIn,setIsLoggedIn} = useAuth(); // Use the useAuth hook to get the isLoggedIn state
+
     const showButton = () => {
         if(window.innerWidth <= 960) {
-            setButton(false)
+            setButton(false);
         } else {
-            setButton(true)
+            setButton(true);
         }
-    }
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', showButton);
+
+        // Cleanup the component
+        return () => {
+            window.removeEventListener('resize', showButton);
+        };
+    }, []);
+
+    useEffect(() => {
+        showButton();
+    }, []);
+
+    const redirectToMenus = () => {
+        window.open('http://vu.edu/menus', '_blank').focus();
+    };
 
     const handleLoginClick = () => {
-        // Here you can add additional logic if needed
         navigate('/login');
     };
 
     const handleProfileClick = () => {
-        // Here you can add additional logic if needed
         navigate('/profile');
-    }
+    };
 
     const handleDashboardClick = () => {
-        // Here you can add additional logic if needed
         navigate('/dashboard');
-    }
+    };
 
-    useEffect(() => {
-        window.addEventListener('resize', showButton)
-
-        // Cleanup the component
-        return () => {
-            window.removeEventListener('resize', showButton)
-        }
-    }, [])
-
-    useEffect(
-        () => {showButton()}, []
-        )
-
-    const redirectToMenus = () => {
-        window.open('http://vu.edu/menus', '_blank').focus();
-    }
-
+    const handleLogoutClick = () => {
+        setIsLoggedIn(false); // Update the isLoggedIn state to false
+        navigate('/'); // Navigate the user back to the homepage
+    };
 
     return (
         <nav className='navbar'>
@@ -67,27 +69,39 @@ function Navbar() {
                 >
                     View Menus
                 </button>
-                <button
-                    className="btn btn--primary btn-m" 
-                    onClick={handleDashboardClick}
-                >
-                    My Dashboard
-                </button>
-                <button
-                    className="btn btn--primary btn-m" 
-                    onClick={handleProfileClick}
-                >
-                    Profile
-                </button>
-                <button 
-                    className="btn btn--primary btn-m" 
-                    onClick={handleLoginClick}
-                >
-                    Log In
-                </button>
+                {isLoggedIn && ( // Conditionally render these buttons if isLoggedIn is true
+                    <>
+                        <button
+                            className="btn btn--primary btn-m" 
+                            onClick={handleDashboardClick}
+                        >
+                            My Dashboard
+                        </button>
+                        <button
+                            className="btn btn--primary btn-m" 
+                            onClick={handleProfileClick}
+                        >
+                            Profile
+                        </button>
+                        <button
+                            className="btn btn--primary btn-m"
+                            onClick={handleLogoutClick}
+                        >
+                            Log Out
+                        </button>
+                    </>
+                )}
+                {!isLoggedIn && ( // Only show the login button if isLoggedIn is false
+                    <button 
+                        className="btn btn--primary btn-m" 
+                        onClick={handleLoginClick}
+                    >
+                        Log In
+                    </button>
+                )}
             </div>
         </nav>
     );
 }
 
-export default Navbar
+export default Navbar;

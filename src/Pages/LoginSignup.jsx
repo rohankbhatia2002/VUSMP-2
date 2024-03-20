@@ -65,7 +65,7 @@ export const LoginSignup = () => {
                     setAuthUser({
                         Name: email
                     })
-                    navigate('/dashboard');
+                    navigate('/profile');
                 } else {
                     throw new Error(body.status || 'Signup failed. Please try again.'); // Use the server's error message
                 }

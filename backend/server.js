@@ -48,8 +48,8 @@ app.post('/signup', (req, res) => {
         return res.status(400).send({status: "Email and password are required."});
     }
 
-    if (email.length > 30) { // Assuming you want to limit the email length to 30 characters
-        return res.status(400).send({status: "Email must be less than 30 characters."});
+    if (email.length > 50) { // Assuming you want to limit the email length to 30 characters
+        return res.status(400).send({status: "Email must be less than 50 characters."});
     }
 
     // Inserting the new user into the database
@@ -65,6 +65,63 @@ app.post('/signup', (req, res) => {
         return res.status(200).send({status: 'User created successfully.'});
     });
 });
+
+app.post('/allergies', (req,res) => {
+    const { authUser, allergy } = req.body
+    const email = authUser.Name;
+
+    if (!email) {
+        return res.status(400).send({status: 'Email cannot be null.'});
+    }
+
+    // Inserting the allergy into the database
+    const query = "INSERT INTO allergies (username, allergy) VALUES (?, ?)";
+    db.query(query, [email, allergy], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send({status: 'Something went wrong.'});
+        }
+        return res.status(200).send({status: 'Allergy added successfully.'});
+    });
+})
+
+app.post('/preferences', (req,res) => {
+    const { authUser, preference } = req.body
+    const email = authUser.Name;
+
+    if (!email) {
+        return res.status(400).send({status: 'Email cannot be null.'});
+    }
+
+    // Inserting the preference into the database
+    const query = "INSERT INTO preferences (username, preference) VALUES (?, ?)";
+    db.query(query, [email, preference], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send({status: 'Something went wrong.'});
+        }
+        return res.status(200).send({status: 'Preference added successfully.'});
+    });
+})
+
+app.post('/metrics', (req,res) => {
+    const { authUser, gender, age, weight, height, activity_level, fitness_goal, bmr } = req.body
+    const email = authUser.Name;
+
+    if (!email) {
+        return res.status(400).send({status: 'Email cannot be null.'});
+    }
+
+    // Inserting the metrics into the database
+    const query = "INSERT INTO metrics (username, gender, age, height, weight, activity_level, fitness_goal, bmr) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    db.query(query, [email, gender, age, height, weight, activity_level, fitness_goal, bmr], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send({status: 'Something went wrong.'});
+        }
+        return res.status(200).send({status: 'Metrics added successfully.'});
+    });
+})
 
 // Start the server
 app.listen(8081, () => {

@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import './PreferencesForm.css';
 import { wait } from '@testing-library/user-event/dist/utils';
 import { Link, useNavigate, UNSAFE_useScrollRestoration } from 'react-router-dom'
+import { useAuth } from '../Contexts/AuthContext'; // Import useAuth
+import axios from 'axios'
 
 const PreferencesForm = () => {
   // State to store selected allergies and preferences
+  const {authUser} = useAuth(); 
+
   const [allergies, setAllergies] = useState({
     alcohol: false,
     coconut: false,
@@ -49,6 +53,45 @@ const PreferencesForm = () => {
     }));
   };
 
+  const postAllergies = async (selectedAllergies) => {
+    Object.keys(selectedAllergies).forEach(allergy => {
+      axios.post("http://localhost:8081/allergies", {authUser, allergy})
+        .then(res=> {
+          // Adapt based on your server's response structure for the preference endpoint
+          if (res.data.status === "Allergy added successfully.") {
+            console.log(`${allergy}: ${res.data.status}`);
+            // Handle successful preference addition
+          } else {
+            console.error(`${allergy}: ${res.data.status || 'Failed to add allergy. Please try again.'}`); // Use the server's error message
+          }
+        })
+        .catch(err => {
+          console.log(`Error posting ${allergy}:`, err);
+          // Handle error in posting preference
+        });
+    });
+  };
+
+
+  const postPreferences = async (selectedPreferences) => {
+    Object.keys(selectedPreferences).forEach(preference => {
+      axios.post("http://localhost:8081/preferences", {authUser, preference})
+        .then(res=> {
+          // Adapt based on your server's response structure for the preference endpoint
+          if (res.data.status === "Preference added successfully.") {
+            console.log(`${preference}: ${res.data.status}`);
+            // Handle successful preference addition
+          } else {
+            console.error(`${preference}: ${res.data.status || 'Failed to add preference. Please try again.'}`); // Use the server's error message
+          }
+        })
+        .catch(err => {
+          console.log(`Error posting ${preference}:`, err);
+          // Handle error in posting preference
+        });
+    });
+  };
+
 // Function to handle form submission
 const handleSubmit = () => {
   // Here you can handle the form submission logic
@@ -83,11 +126,16 @@ const handleSubmit = () => {
   // Update state with reordered values
   setAllergies({ ...selectedAllergies, ...unselectedAllergies });
   setPreferences({ ...selectedPreferences, ...unselectedPreferences });
+  
+  postAllergies(selectedAllergies)
+  postPreferences(selectedPreferences)
+
+  navigate('/bmrCalculator')
 };
 
 return (
   <div className="preferences-form">
-    <h2>User Preferences & Allergies Form</h2>
+    <h2>STEP 1: User Preferences & Allergies Form</h2>
     <p>Please indicate your preferences and allergies below. Clicking a checkbox will toggle its state.</p>
 
     <h3>Allergies:</h3>

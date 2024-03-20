@@ -12,7 +12,6 @@ const HeroSection = () => {
     navigate('/signup');
   }
   
-
   return (
     <>
       <main>
